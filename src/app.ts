@@ -86,7 +86,18 @@ app.patch("/notes/update/:noteId", async (req: Request, res: Response) => {
   }
 });
 
-
+app.delete("/notes/delete/:noteId", async (req: Request, res: Response) => {
+  const noteId = req.params.noteId;
+  try {
+    const note = await Note.findByIdAndDelete(noteId);
+    res.status(201).json({
+      success: true,
+      message: "Note Deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error deleting note", error });
+  }
+});
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Welcome to note app!");
