@@ -54,7 +54,20 @@ app.get("/notes", async (req: Request, res: Response) => {
   }
 });
 
-
+app.get("/notes/:noteId", async (req: Request, res: Response) => {
+  const noteId = req.params.noteId;
+  try {
+    const note = await Note.findById(noteId);
+    // const note = await Note.findOne({ _id: noteId });
+    res.status(201).json({
+      success: true,
+      message: "Single Notes fetched successfully",
+      note: note,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching note", error });
+  }
+});
 
 
 
