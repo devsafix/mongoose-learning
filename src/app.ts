@@ -69,7 +69,22 @@ app.get("/notes/:noteId", async (req: Request, res: Response) => {
   }
 });
 
-
+app.patch("/notes/update/:noteId", async (req: Request, res: Response) => {
+  const updatedNoteData = req.body;
+  const noteId = req.params.noteId;
+  try {
+    const note = await Note.findByIdAndUpdate(noteId, updatedNoteData, {
+      new: true,
+    });
+    res.status(201).json({
+      success: true,
+      message: "Single Note updated successfully",
+      note: note,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating note", error });
+  }
+});
 
 
 
