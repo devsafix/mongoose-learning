@@ -27,6 +27,26 @@ const noteSchema = new Schema(
 
 const Note = model("Note", noteSchema);
 
+app.post("/notes/create-note", async (req: Request, res: Response) => {
+  const noteData = req.body;
+  try {
+    const note = await Note.create(noteData);
+    res.status(201).json({
+      success: true,
+      message: "Note created successfully",
+      note,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error creating note", error });
+  }
+});
+
+
+
+
+
+
+
 
 
 app.get("/", (req: Request, res: Response) => {
