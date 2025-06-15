@@ -41,7 +41,18 @@ app.post("/notes/create-note", async (req: Request, res: Response) => {
   }
 });
 
-
+app.get("/notes", async (req: Request, res: Response) => {
+  try {
+    const note = await Note.find({});
+    res.status(201).json({
+      success: true,
+      message: "Notes fetched successfully",
+      notes: note,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching note", error });
+  }
+});
 
 
 
