@@ -1,3 +1,9 @@
+export interface IAddress {
+  street: string;
+  city: string;
+  zip: number;
+}
+
 export interface IUser {
   firstName: string;
   lastName: string;
@@ -7,4 +13,5 @@ export interface IUser {
   role: "USER" | "ADMIN";
   createdAt?: Date;
   updatedAt?: Date;
+  address: IAddress;
 }

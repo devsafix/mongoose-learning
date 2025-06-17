@@ -1,5 +1,13 @@
 import { model, Schema } from "mongoose";
-import { IUser } from "../interfaces/user.interface";
+import { IAddress, IUser } from "../interfaces/user.interface";
+
+const addressSchema = new Schema<IAddress>({
+  street: { type: String, required: true, trim: true },
+  city: { type: String, required: true, trim: true },
+  zip: { type: Number, required: true },
+},{
+  _id: false,
+});
 
 const userSchema = new Schema<IUser>(
   {
@@ -42,6 +50,10 @@ const userSchema = new Schema<IUser>(
     },
     age: { type: Number, required: true, min: 18, max: 60 },
     password: { type: String, required: true, trim: true },
+    address: {
+      type: addressSchema,
+      required: true,
+    },
   },
   {
     timestamps: true,
