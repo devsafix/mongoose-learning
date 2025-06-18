@@ -44,8 +44,12 @@ usersRouter.post("/create-user", async (req: Request, res: Response) => {
   // const userData = await createUserZodSchema.parseAsync(req.body);
   const userData = req.body;
 
-  const password = await bcrypt.hash(userData.password, 10);
+  // const password = await bcrypt.hash(userData.password, 10);
+
+  const user = new User(userData);
+  const password = await user.hashPassword(userData.password);
   userData.password = password;
+
   try {
     const user = await User.create(userData);
     res.status(201).json({

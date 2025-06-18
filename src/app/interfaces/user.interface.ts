@@ -15,3 +15,7 @@ export interface IUser {
   updatedAt?: Date;
   address: IAddress;
 }
+
+export interface UserInstanceMethods {
+  hashPassword: (password: string) => Promise<string>;
+}
