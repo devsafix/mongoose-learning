@@ -53,8 +53,8 @@ usersRouter.post("/create-user", async (req: Request, res: Response) => {
     // await user.save();
 
     // static method
-    const password = await User.hashPassword(userData.password);
-    userData.password = password;
+    // const password = await User.hashPassword(userData.password);
+    // userData.password = password;
     const user = await User.create(userData);
 
     res.status(201).json({
@@ -115,7 +115,8 @@ usersRouter.patch("/update/:userId", async (req: Request, res: Response) => {
 usersRouter.delete("/delete/:userId", async (req: Request, res: Response) => {
   const userId = req.params.userId;
   try {
-    const user = await User.findByIdAndDelete(userId);
+    // const user = await User.findByIdAndDelete(userId);
+    const user = await User.findOneAndDelete({ _id: userId });
     res.status(201).json({
       success: true,
       message: "user Deleted successfully",

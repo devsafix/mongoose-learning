@@ -6,6 +6,7 @@ import {
   UserInstanceMethods,
   UserStaticMethods,
 } from "../interfaces/user.interface";
+import { Note } from "./notes.model";
 
 const addressSchema = new Schema<IAddress>(
   {
@@ -85,7 +86,22 @@ userSchema.static("hashPassword", async function (normalPassword: string) {
   return password;
 });
 
-export const User = model<IUser, UserStaticMethods>(
-  "User",
-  userSchema
-);
+userSchema.pre("save", async function (next) {
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
+
+userSchema.post("save", function (doc, next) {
+  console.log("User created successfully:", doc);
+  next();
+});
+
+userSchema.post("findOneAndDelete", async function (doc, next) {
+  if (doc) {
+    await Note.deleteMany({ user: doc._id });
+    console.log("All notes associated with the user have been deleted.");
+  }
+  next();
+});
+
+export const User = model<IUser, UserStaticMethods>("User", userSchema);
