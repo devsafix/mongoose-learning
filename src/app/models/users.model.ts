@@ -73,6 +73,8 @@ const userSchema = new Schema<
   {
     timestamps: true,
     versionKey: false,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
 
@@ -102,6 +104,10 @@ userSchema.post("findOneAndDelete", async function (doc, next) {
     console.log("All notes associated with the user have been deleted.");
   }
   next();
+});
+
+userSchema.virtual("fullName").get(function (this: IUser) {
+  return `${this.firstName} ${this.lastName}`;
 });
 
 export const User = model<IUser, UserStaticMethods>("User", userSchema);

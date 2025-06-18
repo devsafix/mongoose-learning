@@ -68,8 +68,12 @@ usersRouter.post("/create-user", async (req: Request, res: Response) => {
 });
 
 usersRouter.get("/", async (req: Request, res: Response) => {
+  const userEmail = req.query.email;
   try {
-    const users = await User.find({});
+    // const users = await User.find({email: "ahmed.safi6@example.com"});
+    // const users = await User.find({ email: userEmail });
+    const users = await User.find({}).sort({ createdAt: 1 }).limit(3).skip(5);
+
     res.status(200).json({
       success: true,
       message: "users fetched successfully",
